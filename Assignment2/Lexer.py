@@ -30,13 +30,13 @@ class Lexer:
             self.tokens.append(token)
         elif inp[0] == "*":
             token = Token(inp[0], 7)
-            self.token.append(token)
+            self.tokens.append(token)
         elif inp[0] == "(":
             token = Token(inp[0], 8)
-            self.token.append(token)
+            self.tokens.append(token)
         elif inp[0] == ")":
             token = Token(inp[0], 9)
-            self.token.append(token)
+            self.tokens.append(token)
         elif inp[0].isdigit():
             inp = self.checkDigit(inp)
             return inp
@@ -76,7 +76,7 @@ class Lexer:
                     self.tokens.append(inp[:3], 11)
                     return inp[3:]
             else:
-                self.token.append(inp[:3], 11)
+                self.tokens.append(inp[:3], 11)
                 inp = inp[3:]
                 return inp
 
@@ -86,7 +86,7 @@ class Lexer:
                     self.tokens.append(inp[:5], 10)
                     return inp[5:]
 
-        while inp[0].isalpha():
+        while inp[0].isalpha() or inp[0].isdigit():
             identifier += inp[0]
             inp = inp[1:]
 
@@ -100,4 +100,4 @@ class Lexer:
     def printTokens(self):
         for i in self.tokens:
             
-            print(i)
+            print(i.lexeme, i.tCode)
