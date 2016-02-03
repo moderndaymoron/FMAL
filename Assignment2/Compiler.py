@@ -1,2 +1,3 @@
-print("hellow world")
-print("adaddadad")
+myLexer = Lexer();
+myParser = Parser(myLexer);
+myParser.parse();
