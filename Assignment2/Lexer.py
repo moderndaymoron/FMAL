@@ -68,9 +68,31 @@ class Lexer:
         self.tokens.append(token)
         return inp
 
-    def checkIdentifier(inp):
+    def checkIdentifier(self, inp):
         identifier = ""
-        if inp[:3] == "end" and len(inp) > 3 and not inp[4].isalpha():
-            self.token.append(inp[:3], 11)
-        elif inp[:5] == "print" and not inp[6].isalpha():
+        if inp[:3] == "end":
+            if len(inp) >= 4:
+                if not inp[3].isalpha():
+                    self.token.append(inp[:3], 11)
+                    return inp[3:]
+            else:
+                self.token.append(inp[:3], 11)
+                inp = inp[3:]
+                return inp
+
+        elif inp[:5] == "print":
+            if len(inp) >= 6:
+                if not inp[5].isalpha():
+                    self.token.append(inp[:5], 10)
+                    return inp[5:]
+
         while inp[0].isalpha():
+            identifier += inp[0]
+            inp = inp[1:]
+
+            if not inp:
+                break
+
+        token = Token(identifier, 1)
+        self.tokens.append(token)
+        return inp
