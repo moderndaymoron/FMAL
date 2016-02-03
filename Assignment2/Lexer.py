@@ -73,7 +73,7 @@ class Lexer:
         if inp[:3] == "end":
             if len(inp) >= 4:
                 if not inp[3].isalpha():
-                    self.token.append(inp[:3], 11)
+                    self.tokens.append(inp[:3], 11)
                     return inp[3:]
             else:
                 self.token.append(inp[:3], 11)
@@ -83,7 +83,7 @@ class Lexer:
         elif inp[:5] == "print":
             if len(inp) >= 6:
                 if not inp[5].isalpha():
-                    self.token.append(inp[:5], 10)
+                    self.tokens.append(inp[:5], 10)
                     return inp[5:]
 
         while inp[0].isalpha():
@@ -97,6 +97,7 @@ class Lexer:
         self.tokens.append(token)
         return inp
 
-def printTokens(self):
-	for i in self.tokens:
-		print(i[0])
+    def printTokens(self):
+        for i in self.tokens:
+            
+            print(i)
