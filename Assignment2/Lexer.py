@@ -96,3 +96,7 @@ class Lexer:
         token = Token(identifier, 1)
         self.tokens.append(token)
         return inp
+
+def printTokens(self):
+	for i in self.tokens:
+		print(i[0])
