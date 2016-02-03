@@ -1,101 +1,96 @@
-from enum import Enum
 import sys
 from Token import Token
-TokenCode = Enum('TokenCode', 'ID ASSIGN SEMICOL INT ADD SUB MULT LPAREN RPAREN PRINT END ERROR')
-
 
 class Lexer:
     tokens = []
 
     def __init__(self):
-        inp = self.readInput()
-        self.getPatterns(inp)
+        self.inp = self.readinput()
+        #self.getPatterns(self.inp)
 
-    def readInput(self):
+    def readinput(self):
         inp = input()
         return inp
 
-    def nextToken(self, inp):
-        if inp[0] == "=":
-            token = Token(inp[0], 2)
-            self.tokens.append(token)
-        elif inp[0] == ";":
-            token = Token(inp[0], 3)
-            self.tokens.append(token)
-        elif inp[0] == "+":
-            token = Token(inp[0], 5)
-            self.tokens.append(token)
-        elif inp[0] == "-":
-            token = Token(inp[0], 6)
-            self.tokens.append(token)
-        elif inp[0] == "*":
-            token = Token(inp[0], 7)
-            self.tokens.append(token)
-        elif inp[0] == "(":
-            token = Token(inp[0], 8)
-            self.tokens.append(token)
-        elif inp[0] == ")":
-            token = Token(inp[0], 9)
-            self.tokens.append(token)
-        elif inp[0].isdigit():
-            inp = self.checkDigit(inp)
-            return inp
-        elif inp[0].isalpha():
-            inp = self.checkIdentifier(inp)
-            return inp
+    def nextToken(self):
+        if not self.inp:
+            return False
+        if self.inp[0] == "=":
+            token = Token(self.inp[0], 2)
+            self.inp = self.inp[1:]
+        elif self.inp[0] == ";":
+            token = Token(self.inp[0], 3)
+            self.inp = self.inp[1:]
+        elif self.inp[0] == "+":
+            token = Token(self.inp[0], 5)
+            self.inp = self.inp[1:]
+        elif self.inp[0] == "-":
+            token = Token(self.inp[0], 6)
+            self.inp = self.inp[1:]
+        elif self.inp[0] == "*":
+            token = Token(self.inp[0], 7)
+            self.inp = self.inp[1:]
+        elif self.inp[0] == "(":
+            token = Token(self.inp[0], 8)
+            self.inp = self.inp[1:]
+        elif self.inp[0] == ")":
+            token = Token(self.inp[0], 9)
+            self.inp = self.inp[1:]
+        elif self.inp[0].isdigit():
+            token = self.checkDigit()
+        elif self.inp[0].isalpha():
+            token = self.checkIdentifier()
         else:
-            token = Token(inp[0], 12)
-
-        return inp[1:]
+            token = Token(self.inp[0], 12)
+            self.inp = self.inp[1:]
+        return token
 
     def getPatterns(self, inp):
         if not inp:
             return
 
-        inp = self.nextToken(inp)
-        return self.getPatterns(inp)
+        self.inp = self.nextToken(self.inp)
+        return self.getPatterns(self.inp)
 
-    def checkDigit(self, inp):
+    def checkDigit(self):
         digit = ""
-        while inp[0].isdigit():
-            digit += inp[0]
-            inp = inp[1:]
+        while self.inp[0].isdigit():
+            digit += self.inp[0]
+            self.inp = self.inp[1:]
 
-            if not inp:
+            if not self.inp:
                 break
 
-        token = Token(digit, 4)
-        self.tokens.append(token)
-        return inp
+        return Token(digit, 4)
 
-    def checkIdentifier(self, inp):
+    def checkIdentifier(self):
         identifier = ""
-        if inp[:3] == "end":
-            if len(inp) >= 4:
-                if not inp[3].isalpha():
-                    self.tokens.append(inp[:3], 11)
-                    return inp[3:]
+        if self.inp[:3] == "end":
+            if len(self.inp) >= 4:
+                if not self.inp[3].isalpha():
+                    symbol = self.inp[:3]
+                    self.inp = self.inp[3:]
+                    return Token(symbol, 11)
             else:
-                self.tokens.append(inp[:3], 11)
-                inp = inp[3:]
-                return inp
+                symbol = self.inp[:3]
+                self.inp = self.inp[3:]
+                return Token(symbol, 11)
 
-        elif inp[:5] == "print":
-            if len(inp) >= 6:
-                if not inp[5].isalpha():
-                    self.tokens.append(inp[:5], 10)
-                    return inp[5:]
+        elif self.inp[:5] == "print":
+            if len(self.inp) >= 6:
+                if not self.inp[5].isalpha():
+                    symbol = self.inp[:5]
+                    self.inp = self.inp[5:]
+                    return Token(symbol, 10)
 
-        while inp[0].isalpha() or inp[0].isdigit():
-            identifier += inp[0]
-            inp = inp[1:]
+        while self.inp[0].isalpha() or self.inp[0].isdigit():
+            identifier += self.inp[0]
+            self.inp = self.inp[1:]
 
-            if not inp:
+            if not self.inp:
                 break
 
-        token = Token(identifier, 1)
-        self.tokens.append(token)
-        return inp
+        return Token(identifier, 1)
 
     def printTokens(self):
         for i in self.tokens:
