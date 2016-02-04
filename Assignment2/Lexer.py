@@ -2,11 +2,9 @@ import sys
 from Token import Token
 
 class Lexer:
-    tokens = []
 
     def __init__(self):
         self.inp = self.readinput()
-        #self.getPatterns(self.inp)
 
     def readinput(self):
         inp = input()
@@ -17,40 +15,29 @@ class Lexer:
             return False
         if self.inp[0] == "=":
             token = Token(self.inp[0], 2)
-            self.inp = self.inp[1:]
         elif self.inp[0] == ";":
             token = Token(self.inp[0], 3)
-            self.inp = self.inp[1:]
         elif self.inp[0] == "+":
             token = Token(self.inp[0], 5)
-            self.inp = self.inp[1:]
         elif self.inp[0] == "-":
             token = Token(self.inp[0], 6)
-            self.inp = self.inp[1:]
         elif self.inp[0] == "*":
             token = Token(self.inp[0], 7)
-            self.inp = self.inp[1:]
         elif self.inp[0] == "(":
             token = Token(self.inp[0], 8)
-            self.inp = self.inp[1:]
         elif self.inp[0] == ")":
             token = Token(self.inp[0], 9)
-            self.inp = self.inp[1:]
         elif self.inp[0].isdigit():
             token = self.checkDigit()
+            return token
         elif self.inp[0].isalpha():
             token = self.checkIdentifier()
+            return token
         else:
             token = Token(self.inp[0], 12)
-            self.inp = self.inp[1:]
+
+        self.inp = self.inp[1:]
         return token
-
-    def getPatterns(self, inp):
-        if not inp:
-            return
-
-        self.inp = self.nextToken(self.inp)
-        return self.getPatterns(self.inp)
 
     def checkDigit(self):
         digit = ""
