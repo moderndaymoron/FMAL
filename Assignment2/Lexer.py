@@ -7,12 +7,17 @@ class Lexer:
         self.inp = self.readinput()
 
     def readinput(self):
-        inp = input()
+        inp = ""
+        x = sys.stdin
+        for line in x:
+            inp += line
         return inp
 
     def nextToken(self):
         if not self.inp:
-            return False
+            return Token("error", 12)
+        if self.inp[0] == ' ' or self.inp[0] == '\n':
+            self.inp = self.inp[1:]
         if self.inp[0] == "=":
             token = Token(self.inp[0], 2)
         elif self.inp[0] == ";":
@@ -62,7 +67,6 @@ class Lexer:
                 symbol = self.inp[:3]
                 self.inp = self.inp[3:]
                 return Token(symbol, 11)
-
         elif self.inp[:5] == "print":
             if len(self.inp) >= 6:
                 if not self.inp[5].isalpha():
