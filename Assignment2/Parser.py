@@ -54,16 +54,15 @@ class Parser:
                 self.commands.append('ADD')
             else: self.commands.append('SUB')
             self.token = self.lexer.nextToken()
-            self.expr()
+            self.term()
+            self.moveOne()
 
     def term(self):
         self.factor()
         while self.accept(TokenCode['MULT']):
-                self.token = self.lexer.nextToken()
-                self.commands.append('MULT')
-                self.factor()
-                self.moveOne()
-
+            self.token = self.lexer.nextToken()
+            self.commands.append('MULT')
+            self.factor()
 
     def factor(self):
         if self.accept(TokenCode['ID']) or self.accept(TokenCode['INT']):

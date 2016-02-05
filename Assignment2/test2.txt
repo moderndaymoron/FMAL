@@ -1,4 +1,0 @@
-myVar = (42);
-print myVar;
-end
-
