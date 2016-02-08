@@ -7,17 +7,20 @@ class Lexer:
         self.inp = self.readinput()
 
     def readinput(self):
-        inp = ""
+        inp = ''
         x = sys.stdin
         for line in x:
             inp += line
         return inp
 
+    def count_letters(self, inp):
+        return len(inp) - inp.count(' ')
+
     def nextToken(self):
-        if not self.inp:
-            return Token("error", 12)
         if self.inp[0] == ' ' or self.inp[0] == '\n':
             self.inp = self.inp[1:]
+        if self.count_letters(self.inp) == 0:
+            return
         if self.inp[0] == "=":
             token = Token(self.inp[0], 2)
         elif self.inp[0] == ";":
