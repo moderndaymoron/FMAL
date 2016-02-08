@@ -17,10 +17,10 @@ class Lexer:
         return len(inp) - inp.count(' ')
 
     def nextToken(self):
+        if self.count_letters(self.inp) == 1:
+            return
         if self.inp[0] == ' ' or self.inp[0] == '\n':
             self.inp = self.inp[1:]
-        if self.count_letters(self.inp) == 0:
-            return
         if self.inp[0] == "=":
             token = Token(self.inp[0], 2)
         elif self.inp[0] == ";":
@@ -85,8 +85,3 @@ class Lexer:
                 break
 
         return Token(identifier, 1)
-
-    def printTokens(self):
-        for i in self.tokens:
-            
-            print(i.lexeme, i.tCode)
