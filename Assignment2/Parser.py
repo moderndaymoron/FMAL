@@ -1,6 +1,5 @@
 from Token import Token
 
-
 import sys
 TokenCode = { 'ID':1, 'ASSIGN':2, 'SEMICOL':3, 'INT':4, 'ADD':5,
  'SUB':6, 'MULT':7, 'LPAREN':8, 'RPAREN':9, 'PRINT':10, 'END':11, 'ERROR':12}
