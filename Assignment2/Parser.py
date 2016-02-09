@@ -78,9 +78,8 @@ class Parser:
         if self.token is None:
             return False
         if symbol == self.token.tCode:
-            if not self.token.tCode == TokenCode['END']:
-                self.oldtoken = self.token
-                self.token = self.lexer.nextToken()
+            self.oldtoken = self.token
+            self.token = self.lexer.nextToken()
             return True
         return False
 
