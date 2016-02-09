@@ -1,6 +1,0 @@
-var = 3;
-a = 2*(31+4);
-print a;
-x = a + 29;
-print x;
-end
